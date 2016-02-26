@@ -118,6 +118,10 @@
 {
     float imageWidth = image.size.width;
     float imageHeight = image.size.height;
+    if (image.size.width < 414) {
+        return image;
+    }
+    
     float width = 414;
     float height = image.size.height/(image.size.width/width);
     
