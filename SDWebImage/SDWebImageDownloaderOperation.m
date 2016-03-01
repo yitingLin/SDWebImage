@@ -43,7 +43,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
 
 @synthesize executing = _executing;
 @synthesize finished = _finished;
-@synthesize compressedSize = _compressedSize;
+@synthesize preferredSize = _preferredSize;
 
 - (id)initWithRequest:(NSURLRequest *)request
               options:(SDWebImageDownloaderOptions)options
@@ -67,7 +67,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
 }
 
 - (id)initWithRequest:(NSURLRequest *)request
-       compressedSize:(CGSize)size
+        preferredSize:(CGSize)size
               options:(SDWebImageDownloaderOptions)options
              progress:(SDWebImageDownloaderProgressBlock)progressBlock
             completed:(SDWebImageDownloaderCompletedBlock)completedBlock
@@ -82,7 +82,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
         _cancelBlock = [cancelBlock copy];
         _executing = NO;
         _finished = NO;
-        _compressedSize = size;
+        _preferredSize = size;
         _expectedSize = 0;
         responseFromCached = YES; // Initially wrong until `connection:willCacheResponse:` is called or not called
     }
@@ -407,8 +407,8 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
             completionBlock(nil, nil, nil, YES);
         } else if (self.imageData) {
             UIImage *image;
-            if (!CGSizeEqualToSize(_compressedSize, CGSizeZero)) {
-                image = [UIImage sd_imageWithData:self.imageData compressedSize:_compressedSize];
+            if (!CGSizeEqualToSize(_preferredSize, CGSizeZero)) {
+                image = [UIImage sd_imageWithData:self.imageData preferredSize:_preferredSize];
                 //将等比压缩过的image在赋在转成data赋给self.imageData
                 NSData *data = UIImageJPEGRepresentation(image, 1);
                 self.imageData =  [NSMutableData dataWithData:data];

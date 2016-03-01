@@ -35,7 +35,7 @@
 #endif
     else {
         image = [[UIImage alloc] initWithData:data];
-        image = [self compressImageWith:image compressedSize:image.size];
+        image = [self compressImageWith:image preferredSize:image.size];
         UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];
         if (orientation != UIImageOrientationUp) {
             image = [UIImage imageWithCGImage:image.CGImage
@@ -48,7 +48,7 @@
     return image;
 }
 
-+ (UIImage *)sd_imageWithData:(NSData *)data compressedSize:(CGSize)size
++ (UIImage *)sd_imageWithData:(NSData *)data preferredSize:(CGSize)size
 {
     if (!data) {
         return nil;
@@ -67,7 +67,7 @@
 #endif
     else {
         image = [[UIImage alloc] initWithData:data];
-        image = [self compressImageWith:image compressedSize:size];
+        image = [self compressImageWith:image preferredSize:size];
         UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];
         if (orientation != UIImageOrientationUp) {
             image = [UIImage imageWithCGImage:image.CGImage
@@ -146,7 +146,7 @@
     return orientation;
 }
 
-+ (UIImage *)compressImageWith:(UIImage *)image compressedSize:(CGSize)size
++ (UIImage *)compressImageWith:(UIImage *)image preferredSize:(CGSize)size
 {
     float imageWidth = image.size.width;
     float imageHeight = image.size.height;

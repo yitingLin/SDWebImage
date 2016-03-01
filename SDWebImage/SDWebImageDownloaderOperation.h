@@ -55,9 +55,9 @@ extern NSString *const SDWebImageDownloadFinishNotification;
 @property (strong, nonatomic) NSURLResponse *response;
 
 /**
- * compressedSize
+ * preferredSize
  */
-@property (nonatomic, assign) CGSize compressedSize;
+@property (nonatomic, assign) CGSize preferredSize;
 /**
  
  *  Initializes a `SDWebImageDownloaderOperation` object
@@ -81,7 +81,7 @@ extern NSString *const SDWebImageDownloadFinishNotification;
             cancelled:(SDWebImageNoParamsBlock)cancelBlock;
 
 - (id)initWithRequest:(NSURLRequest *)request
-       compressedSize:(CGSize)size
+        preferredSize:(CGSize)size
               options:(SDWebImageDownloaderOptions)options
              progress:(SDWebImageDownloaderProgressBlock)progressBlock
             completed:(SDWebImageDownloaderCompletedBlock)completedBlock
