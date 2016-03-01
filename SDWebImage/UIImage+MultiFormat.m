@@ -35,7 +35,7 @@
 #endif
     else {
         image = [[UIImage alloc] initWithData:data];
-        image = [self compressImageWith:image];
+        image = [self compressImageWith:image compressedSize:image.size];
         UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];
         if (orientation != UIImageOrientationUp) {
             image = [UIImage imageWithCGImage:image.CGImage
@@ -45,6 +45,38 @@
     }
 
 
+    return image;
+}
+
++ (UIImage *)sd_imageWithData:(NSData *)data compressedSize:(CGSize)size
+{
+    if (!data) {
+        return nil;
+    }
+    
+    UIImage *image;
+    NSString *imageContentType = [NSData sd_contentTypeForImageData:data];
+    if ([imageContentType isEqualToString:@"image/gif"]) {
+        image = [UIImage sd_animatedGIFWithData:data];
+    }
+#ifdef SD_WEBP
+    else if ([imageContentType isEqualToString:@"image/webp"])
+    {
+        image = [UIImage sd_imageWithWebPData:data];
+    }
+#endif
+    else {
+        image = [[UIImage alloc] initWithData:data];
+        image = [self compressImageWith:image compressedSize:(CGSize)size];
+        UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];
+        if (orientation != UIImageOrientationUp) {
+            image = [UIImage imageWithCGImage:image.CGImage
+                                        scale:image.scale
+                                  orientation:orientation];
+        }
+    }
+    
+    
     return image;
 }
 
@@ -114,15 +146,15 @@
     return orientation;
 }
 
-+ (UIImage *)compressImageWith:(UIImage *)image
++ (UIImage *)compressImageWith:(UIImage *)image compressedSize:(CGSize)size
 {
     float imageWidth = image.size.width;
     float imageHeight = image.size.height;
-    if (image.size.width < 414) {
+    if (image.size.width < size.width) {
         return image;
     }
     
-    float width = 414;
+    float width = size.width;
     float height = image.size.height/(image.size.width/width);
     
     float widthScale = imageWidth /width;

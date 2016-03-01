@@ -12,4 +12,6 @@
 
 + (UIImage *)sd_imageWithData:(NSData *)data;
 
++ (UIImage *)sd_imageWithData:(NSData *)data compressedSize:(CGSize)size;
+
 @end
