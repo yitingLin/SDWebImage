@@ -67,7 +67,7 @@
 #endif
     else {
         image = [[UIImage alloc] initWithData:data];
-        image = [self compressImageWith:image compressedSize:(CGSize)size];
+        image = [self compressImageWith:image compressedSize:size];
         UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];
         if (orientation != UIImageOrientationUp) {
             image = [UIImage imageWithCGImage:image.CGImage
@@ -150,7 +150,7 @@
 {
     float imageWidth = image.size.width;
     float imageHeight = image.size.height;
-    if (image.size.width < size.width) {
+    if (image.size.width <= size.width) {
         return image;
     }
     
