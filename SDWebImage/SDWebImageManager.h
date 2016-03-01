@@ -209,8 +209,31 @@ SDWebImageManager *manager = [SDWebImageManager sharedManager];
                                         progress:(SDWebImageDownloaderProgressBlock)progressBlock
                                        completed:(SDWebImageCompletionWithFinishedBlock)completedBlock;
 
+/**
+ * Downloads the image at the given URL if not present in cache or return the cached version otherwise.
+ *
+ * @param url            The URL to the image
+ * @param size           The size of image to be resized after request finishes.
+ * @param options        A mask to specify options to use for this request
+ * @param progressBlock  A block called while image is downloading
+ * @param completedBlock A block called when operation has been completed.
+ *
+ *   This parameter is required.
+ *
+ *   This block has no return value and takes the requested UIImage as first parameter.
+ *   In case of error the image parameter is nil and the second parameter may contain an NSError.
+ *
+ *   The third parameter is an `SDImageCacheType` enum indicating if the image was retrieved from the local cache
+ *   or from the memory cache or from the network.
+ *
+ *   The last parameter is set to NO when the SDWebImageProgressiveDownload option is used and the image is
+ *   downloading. This block is thus called repeatedly with a partial image. When image is fully downloaded, the
+ *   block is called a last time with the full image and the last parameter set to YES.
+ *
+ * @return Returns an NSObject conforming to SDWebImageOperation. Should be an instance of SDWebImageDownloaderOperation
+ */
 - (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url
-                                  compressedSize:(CGSize)size
+                                   preferredSize:(CGSize)size
                                          options:(SDWebImageOptions)options
                                         progress:(SDWebImageDownloaderProgressBlock)progressBlock
                                        completed:(SDWebImageCompletionWithFinishedBlock)completedBlock;

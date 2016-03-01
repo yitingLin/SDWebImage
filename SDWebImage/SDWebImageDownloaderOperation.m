@@ -407,7 +407,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
             completionBlock(nil, nil, nil, YES);
         } else if (self.imageData) {
             UIImage *image;
-            if (_compressedSize.width > 0) {
+            if (!CGSizeEqualToSize(_compressedSize, CGSizeZero)) {
                 image = [UIImage sd_imageWithData:self.imageData compressedSize:_compressedSize];
                 //将等比压缩过的image在赋在转成data赋给self.imageData
                 NSData *data = UIImageJPEGRepresentation(image, 1);

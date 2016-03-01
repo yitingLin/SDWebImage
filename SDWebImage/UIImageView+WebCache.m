@@ -18,35 +18,57 @@ static char TAG_ACTIVITY_SHOW;
 @implementation UIImageView (WebCache)
 
 - (void)sd_setImageWithURL:(NSURL *)url {
-    [self sd_setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:nil];
+    [self sd_setImageWithURL:url placeholderImage:nil preferredSize:CGSizeZero options:0 progress:nil completed:nil];
+}
+
+- (void)sd_setImageWithURL:(NSURL *)url preferredSize:(CGSize)size{
+    [self sd_setImageWithURL:url placeholderImage:nil preferredSize:size options:0 progress:nil completed:nil];
 }
 
 - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder {
-    [self sd_setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:nil];
+    [self sd_setImageWithURL:url placeholderImage:placeholder preferredSize:CGSizeZero options:0 progress:nil completed:nil];
 }
 
-- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder compressedSize:(CGSize)size
+- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder preferredSize:(CGSize)size
 {
-    [self sd_setImageWithURL:url placeholderImage:placeholder compressedSize:size options:0 progress:nil completed:nil];
+    [self sd_setImageWithURL:url placeholderImage:placeholder preferredSize:size options:0 progress:nil completed:nil];
 }
 
 - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options {
-    [self sd_setImageWithURL:url placeholderImage:placeholder options:options progress:nil completed:nil];
+    [self sd_setImageWithURL:url placeholderImage:placeholder preferredSize:CGSizeZero options:options progress:nil completed:nil];
+}
+
+- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder preferredSize:(CGSize)size options:(SDWebImageOptions)options {
+    [self sd_setImageWithURL:url placeholderImage:placeholder preferredSize:size options:options progress:nil completed:nil];
 }
 
 - (void)sd_setImageWithURL:(NSURL *)url completed:(SDWebImageCompletionBlock)completedBlock {
-    [self sd_setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:completedBlock];
+    [self sd_setImageWithURL:url placeholderImage:nil preferredSize:CGSizeZero options:0 progress:nil completed:completedBlock];
+}
+
+- (void)sd_setImageWithURL:(NSURL *)url preferredSize:(CGSize)size completed:(SDWebImageCompletionBlock)completedBlock {
+    [self sd_setImageWithURL:url placeholderImage:nil preferredSize:size options:0 progress:nil completed:completedBlock];
 }
 
 - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder completed:(SDWebImageCompletionBlock)completedBlock {
-    [self sd_setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:completedBlock];
+    [self sd_setImageWithURL:url placeholderImage:placeholder preferredSize:CGSizeZero options:0 progress:nil completed:completedBlock];
+}
+
+- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder preferredSize:(CGSize)size completed:(SDWebImageCompletionBlock)completedBlock {
+    [self sd_setImageWithURL:url placeholderImage:placeholder preferredSize:size options:0 progress:nil completed:completedBlock];
 }
 
 - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options completed:(SDWebImageCompletionBlock)completedBlock {
-    [self sd_setImageWithURL:url placeholderImage:placeholder options:options progress:nil completed:completedBlock];
+    [self sd_setImageWithURL:url placeholderImage:placeholder preferredSize:CGSizeZero options:options progress:nil completed:completedBlock];
+}
+
+- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder preferredSize:(CGSize)size options:(SDWebImageOptions)options completed:(SDWebImageCompletionBlock)completedBlock {
+    [self sd_setImageWithURL:url placeholderImage:placeholder preferredSize:size options:options progress:nil completed:completedBlock];
 }
 
 - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock {
+     [self sd_setImageWithURL:url placeholderImage:placeholder preferredSize:CGSizeZero options:options progress:progressBlock completed:completedBlock];
+    /*
     [self sd_cancelCurrentImageLoad];
     objc_setAssociatedObject(self, &imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
@@ -98,9 +120,10 @@ static char TAG_ACTIVITY_SHOW;
             }
         });
     }
+     */
 }
 
-- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder compressedSize:(CGSize )size options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock {
+- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder preferredSize:(CGSize)size options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock {
     [self sd_cancelCurrentImageLoad];
     objc_setAssociatedObject(self, &imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
@@ -118,7 +141,7 @@ static char TAG_ACTIVITY_SHOW;
         }
         
         __weak __typeof(self)wself = self;
-        id <SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadImageWithURL:url compressedSize:size options:options progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        id <SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadImageWithURL:url preferredSize:size options:options progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             [wself removeActivityIndicator];
             if (!wself) return;
             dispatch_main_sync_safe(^{

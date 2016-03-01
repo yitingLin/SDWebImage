@@ -113,6 +113,8 @@ static NSString *const kCompletedCallbackKey = @"completed";
 }
 
 - (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url options:(SDWebImageDownloaderOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageDownloaderCompletedBlock)completedBlock {
+    return [self downloadImageWithURL:url preferredSize:CGSizeZero options:options progress:progressBlock completed:completedBlock];
+    /*
     __block SDWebImageDownloaderOperation *operation;
     __weak __typeof(self)wself = self;
 
@@ -193,9 +195,10 @@ static NSString *const kCompletedCallbackKey = @"completed";
     }];
 
     return operation;
+     */
 }
 
-- (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url compressedSize:(CGSize)size options:(SDWebImageDownloaderOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageDownloaderCompletedBlock)completedBlock {
+- (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url preferredSize:(CGSize)size options:(SDWebImageDownloaderOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageDownloaderCompletedBlock)completedBlock {
     __block SDWebImageDownloaderOperation *operation;
     __weak __typeof(self)wself = self;
     
