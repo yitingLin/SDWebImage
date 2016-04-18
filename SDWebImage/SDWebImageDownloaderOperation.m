@@ -11,6 +11,7 @@
 #import "UIImage+MultiFormat.h"
 #import <ImageIO/ImageIO.h>
 #import "SDWebImageManager.h"
+#import "NSData+ImageContentType.h"
 
 NSString *const SDWebImageDownloadStartNotification = @"SDWebImageDownloadStartNotification";
 NSString *const SDWebImageDownloadReceiveResponseNotification = @"SDWebImageDownloadReceiveResponseNotification";
@@ -407,7 +408,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
             completionBlock(nil, nil, nil, YES);
         } else if (self.imageData) {
             UIImage *image;
-            if (!CGSizeEqualToSize(_preferredSize, CGSizeZero)) {
+            if (!CGSizeEqualToSize(_preferredSize, CGSizeZero) && ![[NSData sd_contentTypeForImageData:self.imageData] isEqualToString:@"image/gif"]) {
                 image = [UIImage sd_imageWithData:self.imageData preferredSize:_preferredSize];
                 //将等比压缩过的image在赋在转成data赋给self.imageData
                 NSData *data = UIImageJPEGRepresentation(image, 1);
